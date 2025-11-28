@@ -1,0 +1,132 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Student Pagination</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background: linear-gradient(135deg, #6f42c1, #007bff);
+      color: #fff;
+      text-align: center;
+      margin: 0;
+      padding: 0;
+    }
+
+    h2 {
+      margin-top: 30px;
+      font-size: 28px;
+      font-weight: bold;
+    }
+
+    ul {
+      list-style-type: none;
+      padding: 0;
+      width: 60%;
+      margin: 20px auto;
+    }
+
+    li {
+      background: rgba(255, 255, 255, 0.15);
+      margin: 10px 0;
+      padding: 12px;
+      border-radius: 12px;
+      font-size: 18px;
+      transition: 0.3s;
+    }
+
+    li:hover {
+      background: rgba(255, 255, 255, 0.25);
+      transform: scale(1.03);
+    }
+
+    button {
+      background-color: #ffca28;
+      border: none;
+      padding: 12px 20px;
+      margin: 20px 10px;
+      border-radius: 10px;
+      font-size: 16px;
+      cursor: pointer;
+      font-weight: bold;
+      color: #000;
+      transition: 0.3s;
+    }
+
+    button:hover:not(:disabled) {
+      background-color: #ffb300;
+      transform: scale(1.05);
+    }
+
+    button:disabled {
+      background-color: #bdbdbd;
+      cursor: not-allowed;
+      color: #333;
+    }
+
+    .pagination {
+      margin-bottom: 40px;
+    }
+  </style>
+</head>
+<body>
+
+  <h2 id="title"></h2>
+  <ul id="student-list"></ul>
+
+  <div class="pagination">
+    <button id="prev-btn">⟨ Previous</button>
+    <button id="next-btn">Next ⟩</button>
+  </div>
+
+  <script>
+    const students = [
+      "Student 1","Student 2","Student 3","Student 4","Student 5",
+      "Student 6","Student 7","Student 8","Student 9","Student 10",
+      "Student 11","Student 12","Student 13","Student 14","Student 15",
+      "Student 16","Student 17","Student 18","Student 19","Student 20",
+      "Student 21","Student 22","Student 23","Student 24","Student 25",
+      "Student 26","Student 27","Student 28","Student 29","Student 30"
+    ];
+
+    const studentsPerPage = 10;
+    let currentPage = 1;
+    const totalPages = Math.ceil(students.length / studentsPerPage);
+
+    const titleEl = document.getElementById("title");
+    const listEl = document.getElementById("student-list");
+    const prevBtn = document.getElementById("prev-btn");
+    const nextBtn = document.getElementById("next-btn");
+
+    function renderPage() {
+      titleEl.textContent = `Students (Page ${currentPage} of ${totalPages})`;
+      listEl.innerHTML = "";
+
+      const start = (currentPage - 1) * studentsPerPage;
+      const end = start + studentsPerPage;
+      const currentStudents = students.slice(start, end);
+
+      currentStudents.forEach(student => {
+        const li = document.createElement("li");
+        li.textContent = student;
+        listEl.appendChild(li);
+      });
+
+      prevBtn.disabled = currentPage === 1;
+      nextBtn.disabled = currentPage === totalPages;
+    }
+
+    prevBtn.addEventListener("click", () => {
+      if (currentPage > 1) currentPage--;
+      renderPage();
+    });
+
+    nextBtn.addEventListener("click", () => {
+      if (currentPage < totalPages) currentPage++;
+      renderPage();
+    });
+
+    renderPage();
+  </script>
+
+</body>
+</html>
